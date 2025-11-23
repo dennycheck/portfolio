@@ -39,6 +39,65 @@ Components are organized using BEM-like naming conventions:
 - `.btn--disabled` - Disabled state
 - `.btn--loading` - Loading state with spinner
 
+## Navigation Bar Component
+
+### Usage
+```html
+<nav class="navbar">
+    <div class="navbar__slot navbar__slot--left">
+        <!-- Left content: Logo, etc. -->
+    </div>
+    <div class="navbar__slot navbar__slot--center">
+        <!-- Center content: Navigation links -->
+    </div>
+    <div class="navbar__slot navbar__slot--right">
+        <!-- Right content: Buttons, etc. -->
+    </div>
+</nav>
+```
+
+### Structure
+The navbar uses a three-slot system for flexible alignment:
+- `.navbar__slot--left` - Left-aligned content (logo, branding)
+- `.navbar__slot--center` - Center-aligned content (navigation links)
+- `.navbar__slot--right` - Right-aligned content (buttons, actions)
+
+### Navbar Variants
+- `.navbar--fixed` - Fixed to top of viewport
+- `.navbar--sticky` - Sticks to top when scrolling
+- `.navbar--transparent` - Transparent background
+- `.navbar--solid` - Solid background with shadow
+
+### Logo/Brand
+```html
+<a href="#" class="navbar__logo">Your Logo</a>
+<!-- Or with image -->
+<a href="#" class="navbar__logo">
+    <img src="logo.png" alt="Logo">
+</a>
+```
+
+### Navigation Links
+```html
+<ul class="navbar__nav">
+    <li><a href="#" class="navbar__link">Home</a></li>
+    <li><a href="#" class="navbar__link navbar__link--active">About</a></li>
+</ul>
+```
+
+### Integration with Buttons
+Buttons can be placed in any slot:
+```html
+<div class="navbar__slot navbar__slot--right">
+    <button class="btn btn--primary">Action</button>
+</div>
+```
+
+### Responsive Behavior
+- On mobile (≤768px), center slot is hidden by default
+- Navigation links adjust spacing and font size
+- Mobile menu toggle available for future implementation
+
 ## Creating Alternative Themes
 
 To create an alternative theme:
