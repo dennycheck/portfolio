@@ -33,22 +33,104 @@
         </div>
     </nav>
     
-    <!-- Demo Content -->
-    <div style="padding: 2rem; min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
-        <h1 style="margin-bottom: 2rem;">Component System Demo</h1>
+    <!-- Main Content -->
+    <main style="padding: var(--spacing-xl); max-width: 1400px; margin: 0 auto;">
+        <h1 style="margin-bottom: var(--spacing-xl);">Component System Demo</h1>
         
-        <!-- Button Component Examples -->
-        <button class="btn btn--primary">Primary Button</button>
-        <button class="btn btn--secondary">Secondary Button</button>
-        <button class="btn btn--outline">Outline Button</button>
-        <button class="btn btn--ghost">Ghost Button</button>
+        <!-- Tile Grid Examples -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Tile Grid System</h2>
+            
+            <!-- Auto-fit Responsive Grid -->
+            <div class="tile-grid tile-grid--auto">
+                <!-- Tile as Link -->
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__header">
+                        <h3 class="tile__title">Project One</h3>
+                    </div>
+                    <div class="tile__body">
+                        <p class="tile__text">This is a tile that functions as a link. It contains arbitrary content and has responsive width.</p>
+                        <span class="tile__meta">Web Design • 2024</span>
+                    </div>
+                </a>
+                
+                <!-- Tile with Image -->
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <div style="width: 100%; height: 150px; background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); border-radius: var(--radius-md); margin-bottom: var(--spacing-md);"></div>
+                        <h3 class="tile__title">Project Two</h3>
+                        <p class="tile__text">Tiles can contain images, text, and any other content you need.</p>
+                    </div>
+                    <div class="tile__footer">
+                        <span class="tile__meta">Branding • 2024</span>
+                    </div>
+                </a>
+                
+                <!-- Tile with Actions -->
+                <div class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Project Three</h3>
+                        <p class="tile__text">Tiles don't have to be links. They can be containers for any content.</p>
+                    </div>
+                    <div class="tile__footer">
+                        <div class="tile__actions">
+                            <button class="btn btn--primary btn--sm">View</button>
+                            <button class="btn btn--outline btn--sm">Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wide Spanning Tile -->
+                <a href="#" class="tile tile--shadow tile--span-2">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Featured Project</h3>
+                        <p class="tile__text">This tile spans 2 columns using the tile--span-2 modifier. Perfect for featuring important content.</p>
+                        <span class="tile__meta">Featured • Portfolio • 2024</span>
+                    </div>
+                </a>
+                
+                <!-- Simple Tile -->
+                <a href="#" class="tile tile--bordered">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Project Four</h3>
+                        <p class="tile__text">A simple bordered tile variant.</p>
+                    </div>
+                </a>
+                
+                <!-- Flat Tile -->
+                <a href="#" class="tile tile--flat">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Project Five</h3>
+                        <p class="tile__text">Flat tile style with subtle hover effect.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
         
-        <!-- Button Size Variations -->
-        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
-            <button class="btn btn--primary btn--sm">Small</button>
-            <button class="btn btn--primary">Default</button>
-            <button class="btn btn--primary btn--lg">Large</button>
-        </div>
-    </div>
+        <!-- Fixed Column Grid Example -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">3 Column Grid</h2>
+            <div class="tile-grid tile-grid--cols-3">
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Tile 1</h3>
+                        <p class="tile__text">Fixed 3-column layout.</p>
+                    </div>
+                </a>
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Tile 2</h3>
+                        <p class="tile__text">Responsive on mobile.</p>
+                    </div>
+                </a>
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Tile 3</h3>
+                        <p class="tile__text">Automatically adjusts.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

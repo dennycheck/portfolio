@@ -98,6 +98,91 @@ Buttons can be placed in any slot:
 - Navigation links adjust spacing and font size
 - Mobile menu toggle available for future implementation
 
+## Tile Grid System
+
+### Usage
+```html
+<div class="tile-grid tile-grid--auto">
+    <a href="#" class="tile tile--shadow">
+        <div class="tile__body">
+            <h3 class="tile__title">Tile Title</h3>
+            <p class="tile__text">Tile content goes here.</p>
+        </div>
+    </a>
+</div>
+```
+
+### Grid Layout Options
+
+#### Fixed Column Grids
+- `.tile-grid--cols-1` through `.tile-grid--cols-6` - Fixed number of columns
+- Responsive: Automatically adjusts on smaller screens
+
+#### Auto-fit Responsive Grids
+- `.tile-grid--auto` - Auto-fit with 250px minimum (default)
+- `.tile-grid--auto-sm` - 200px minimum width
+- `.tile-grid--auto-lg` - 300px minimum width
+- `.tile-grid--auto-xl` - 400px minimum width
+
+### Tile Structure
+Tiles support flexible content areas:
+- `.tile__header` - Optional header section
+- `.tile__body` - Main content area (flexible)
+- `.tile__footer` - Optional footer section
+
+### Tile as Link
+Tiles can function as links:
+```html
+<a href="#" class="tile tile--shadow">
+    <!-- Tile content -->
+</a>
+```
+
+### Tile Variants
+- `.tile--shadow` - With shadow and hover effect
+- `.tile--bordered` - With prominent border
+- `.tile--flat` - Minimal style with subtle hover
+
+### Tile Spanning
+Control tile width within the grid:
+- `.tile--span-2` - Span 2 columns
+- `.tile--span-3` - Span 3 columns
+- `.tile--span-4` - Span 4 columns
+- `.tile--span-full` - Span all columns
+- `.tile--row-span-2` - Span 2 rows (for masonry layouts)
+
+### Tile Content Elements
+- `.tile__title` - Heading text
+- `.tile__text` - Body text
+- `.tile__meta` - Metadata/info text
+- `.tile__image` - Image element
+- `.tile__actions` - Container for buttons/actions
+
+### Responsive Behavior
+- Fixed column grids automatically reduce columns on smaller screens
+- Auto-fit grids adjust tile width based on available space
+- On mobile (≤576px), all grids collapse to single column
+- Span modifiers adjust automatically for mobile
+
+### Example: Complete Tile
+```html
+<a href="#" class="tile tile--shadow">
+    <div class="tile__header">
+        <h3 class="tile__title">Project Name</h3>
+    </div>
+    <div class="tile__body">
+        <img src="image.jpg" alt="" class="tile__image tile__image--cover">
+        <p class="tile__text">Project description here.</p>
+        <span class="tile__meta">Category • 2024</span>
+    </div>
+    <div class="tile__footer">
+        <div class="tile__actions">
+            <button class="btn btn--primary btn--sm">View</button>
+        </div>
+    </div>
+</a>
+```
+
 ## Creating Alternative Themes
 
 To create an alternative theme:
