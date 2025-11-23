@@ -5,9 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Alternative stylesheets can be added here -->
+    <!-- <link rel="stylesheet" href="themes/dark.css"> -->
+    <!-- <link rel="stylesheet" href="themes/minimal.css"> -->
 </head>
 <body>
-    <!-- Portfolio content will go here -->
+    <div style="padding: 2rem; min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
+        <h1 style="margin-bottom: 2rem;">Component System Demo</h1>
+        
+        <!-- Button Component Examples -->
+        <button class="btn btn--primary">Primary Button</button>
+        <button class="btn btn--secondary">Secondary Button</button>
+        <button class="btn btn--outline">Outline Button</button>
+        <button class="btn btn--ghost">Ghost Button</button>
+        
+        <!-- Button Size Variations -->
+        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+            <button class="btn btn--primary btn--sm">Small</button>
+            <button class="btn btn--primary">Default</button>
+            <button class="btn btn--primary btn--lg">Large</button>
+        </div>
+    </div>
 </body>
 </html>
-
