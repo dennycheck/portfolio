@@ -1,0 +1,246 @@
+/* ============================================
+   DARK THEME OVERRIDE
+   ============================================ */
+
+:root {
+    /* Neutral Color Palette - Dark Theme (Pure Grays) */
+    --color-primary: #a3a3a3;
+    --color-primary-dark: #737373;
+    --color-primary-light: #d4d4d4;
+    --color-secondary: #a3a3a3;
+    --color-accent: #d4d4d4;
+    
+    /* Neutral Colors - Dark */
+    --color-text: #e5e5e5;
+    --color-text-light: #a3a3a3;
+    --color-text-lighter: #737373;
+    --color-bg: #171717;
+    --color-bg-alt: #262626;
+    --color-border: #404040;
+    
+    /* Neutral Gray Scale for Buttons - Dark */
+    --color-gray-50: #262626;
+    --color-gray-100: #2a2a2a;
+    --color-gray-200: #404040;
+    --color-gray-300: #525252;
+    --color-gray-400: #737373;
+    --color-gray-500: #a3a3a3;
+    --color-gray-600: #d4d4d4;
+    --color-gray-700: #e5e5e5;
+    --color-gray-800: #f5f5f5;
+    --color-gray-900: #fafafa;
+}
+
+/* Dark theme specific adjustments */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.navbar {
+    background-color: rgba(23, 23, 23, 0.7);
+    border-bottom: none;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.navbar--sticky.navbar--scrolled {
+    background-color: rgba(23, 23, 23, 0.8);
+}
+
+/* Navbar link active state - translucent glass effect */
+.navbar__link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.navbar__link--active {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Theme toggle uses btn--outline styles, no custom overrides needed */
+
+.tile {
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-border);
+}
+
+/* Only interactive tiles should have hover states */
+.tile--interactive:hover,
+a.tile:hover {
+    border-color: var(--color-gray-500);
+}
+
+/* Button Color System - Dark Mode */
+:root {
+    /* Primary Button Colors - Dark Mode */
+    --btn-primary-bg: #e5e5e5;
+    --btn-primary-label: #171717;
+    --btn-primary-bg-hover: #ffffff;
+    
+    /* Secondary Button Colors - Dark Mode */
+    --btn-secondary-bg: #525252;
+    --btn-secondary-label: #ffffff;
+    --btn-secondary-bg-hover: #6a6a6a;
+    
+    /* Outline Button Colors - Dark Mode */
+    --btn-outline-bg: transparent;
+    --btn-outline-label: var(--btn-primary-bg);
+    --btn-outline-border: var(--color-gray-600); /* Lighter border - two steps lighter */
+    --btn-outline-border-hover: #737373; /* Lighter border on hover */
+    --btn-outline-label-hover: #ffffff; /* Lighter text on hover */
+    
+    /* Ghost Button Colors - Dark Mode */
+    --btn-ghost-bg: transparent;
+    --btn-ghost-label: var(--btn-primary-bg);
+    --btn-ghost-bg-hover: var(--color-bg-alt);
+    --btn-ghost-label-hover: var(--btn-primary-bg-hover);
+}
+
+/* Button adjustments for dark theme */
+.btn--primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-label);
+    border-color: var(--btn-primary-bg);
+}
+
+.btn--primary:hover {
+    background-color: var(--btn-primary-bg-hover);
+    border-color: var(--btn-primary-bg-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.btn--secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-label);
+    border-color: var(--btn-secondary-bg);
+}
+
+.btn--secondary:hover {
+    background-color: var(--btn-secondary-bg-hover);
+    border-color: var(--btn-secondary-bg-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.btn--outline {
+    border-color: var(--btn-outline-border);
+    color: var(--btn-outline-label);
+    background-color: var(--btn-outline-bg);
+}
+
+.btn--outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--btn-outline-border-hover);
+    color: var(--btn-outline-label-hover);
+}
+
+.btn--ghost:hover {
+    background-color: var(--color-bg-alt);
+}
+
+/* Disabled Button States - Dark Mode */
+/* Dark mode: darker background with lighter text (reversed contrast) */
+.btn--primary:disabled,
+.btn--primary.btn--disabled {
+    background-color: #404040;
+    color: #a3a3a3;
+    border-color: #404040;
+}
+
+.btn--secondary:disabled,
+.btn--secondary.btn--disabled {
+    background-color: #404040;
+    color: #a3a3a3;
+    border-color: #404040;
+}
+
+.btn--outline:disabled,
+.btn--outline.btn--disabled {
+    background-color: #262626;
+    color: #737373;
+    border-color: #525252;
+}
+
+.btn--ghost:disabled,
+.btn--ghost.btn--disabled {
+    background-color: transparent;
+    color: #525252;
+}
+
+/* Link colors */
+a {
+    color: var(--color-gray-500);
+}
+
+a:hover {
+    color: var(--color-gray-400);
+}
+
+/* Badge adjustments for dark theme */
+.badge--yellow {
+    background-color: #78350f;
+    color: #fde68a;
+    border-color: #92400e;
+}
+
+.badge--green {
+    background-color: #064e3b;
+    color: #a7f3d0;
+    border-color: #065f46;
+}
+
+.badge--red {
+    background-color: #7f1d1d;
+    color: #fecaca;
+    border-color: #991b1b;
+}
+
+.badge--blue {
+    background-color: #1e3a8a;
+    color: #bfdbfe;
+    border-color: #1e40af;
+}
+
+.badge--gray {
+    background-color: var(--color-gray-400);
+    color: var(--color-gray-900);
+    border-color: var(--color-gray-500);
+}
+
+/* Heading colors */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text);
+}
+
+/* Modal adjustments for dark theme */
+.modal {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Chameleon navbar - ensure CSS variables work in dark mode */
+/* Note: Inline styles set by JavaScript will override these */
+.navbar--chameleon .navbar__logo,
+.navbar--chameleon .navbar__link,
+.navbar--chameleon .btn--ghost {
+    color: var(--chameleon-text-color) !important;
+}
+
+.navbar--chameleon .btn--ghost {
+    border-color: var(--chameleon-border-color) !important;
+}
+
+.navbar--chameleon .btn--primary {
+    background-color: var(--chameleon-bg-color) !important;
+    color: var(--chameleon-primary-text-color) !important;
+    border-color: var(--chameleon-border-color) !important;
+}
+
+.navbar--chameleon .btn__icon svg,
+.navbar--chameleon .btn__icon .icon svg {
+    fill: var(--chameleon-text-color) !important;
+    color: var(--chameleon-text-color) !important;
+}
+

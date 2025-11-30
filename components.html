@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="icon-loader.js" defer></script>
+    <script src="themes/theme-toggle.js" defer></script>
+    <script src="modal.js" defer></script>
+</head>
+<body>
+    <!-- Navigation Bar Component -->
+    <nav class="navbar navbar--sticky">
+        <!-- Left Slot: Logo -->
+        <div class="navbar__slot navbar__slot--left">
+            <a href="index.html" class="navbar__logo">Portfolio</a>
+        </div>
+        
+        <!-- Center Slot: Navigation Links -->
+        <div class="navbar__slot navbar__slot--center">
+            <ul class="navbar__nav">
+                <li><a href="index.html" class="navbar__link">Home</a></li>
+                <li><a href="about.html" class="navbar__link">About</a></li>
+                <li><a href="work.html" class="navbar__link">Work</a></li>
+                <li><a href="contact.html" class="navbar__link">Contact</a></li>
+                <li><a href="components.html" class="navbar__link navbar__link--active">Components</a></li>
+                <li><a href="gallery.html" class="navbar__link">Gallery</a></li>
+            </ul>
+        </div>
+        
+        <!-- Right Slot: Mobile Menu, Theme Toggle & Button -->
+        <div class="navbar__slot navbar__slot--right">
+            <button class="btn btn--ghost navbar__mobile-menu-btn btn--icon-only" data-modal-trigger="nav-modal" aria-label="Open navigation menu">
+                <span class="btn__icon" data-icon="bars-3" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+            </button>
+            <button class="btn btn--ghost theme-toggle btn--icon-only" data-theme-toggle aria-label="Toggle theme" aria-pressed="false">
+                <span class="btn__icon theme-toggle__icon" data-icon="moon" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+            </button>
+            <button class="btn btn--primary">Get Started</button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main style="padding: var(--spacing-xl); max-width: 1400px; margin: 0 auto;">
+        <header style="margin-bottom: var(--spacing-2xl);">
+            <h1 style="margin-bottom: var(--spacing-md);">Component Gallery</h1>
+            <p style="color: var(--color-text-light); font-size: var(--font-size-lg); max-width: 600px;">
+                A comprehensive showcase of reusable UI components built with a flexible CSS variable system. 
+                This gallery serves as both a design system reference and a component repository.
+            </p>
+        </header>
+        
+        <!-- Color System -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Color System</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                A comprehensive reference of all colors used throughout the design system. Colors are organized by usage 
+                and include their hex values and application examples.
+            </p>
+            
+            <!-- Neutral Gray Scale -->
+            <div style="margin-bottom: var(--spacing-xl);">
+                <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Neutral Gray Scale</h3>
+                <div class="tile-grid tile-grid--auto">
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #ffffff; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 0 (White)</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#ffffff</p>
+                            <span class="tile__meta">Primary button hover background</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #fafafa; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 50</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#fafafa</p>
+                            <span class="tile__meta">Tile background</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #f5f5f5; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 100</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#f5f5f5</p>
+                            <span class="tile__meta">Background alt, ghost button hover</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #e5e5e5; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 200</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#e5e5e5</p>
+                            <span class="tile__meta">Gray badge background</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #d4d4d4; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 300</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#d4d4d4</p>
+                            <span class="tile__meta">Outline button border, gray badge border</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #a3a3a3; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 400</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#a3a3a3</p>
+                            <span class="tile__meta">Gray badge background (dark mode)</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #737373; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 500</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#737373</p>
+                            <span class="tile__meta">Secondary button background</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #525252; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 600</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#525252</p>
+                            <span class="tile__meta">Secondary button hover, outline hover border</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #404040; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 700</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#404040</p>
+                            <span class="tile__meta">Links, borders</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #262626; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 800</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#262626</p>
+                            <span class="tile__meta">Primary button background, outline label</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #171717; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Neutral 900</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#171717</p>
+                            <span class="tile__meta">Darkest gray, body background (dark mode)</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #000000; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid var(--color-border);"></div>
+                            <h3 class="tile__title">Black</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">#000000</p>
+                            <span class="tile__meta">Primary button hover, outline hover label</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Badge Colors -->
+            <div style="margin-bottom: var(--spacing-xl);">
+                <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Badge Colors</h3>
+                <div class="tile-grid tile-grid--auto">
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #fef3c7; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid #fde68a; display: flex; align-items: center; justify-content: center;">
+                                <span class="badge badge--yellow">Yellow Badge</span>
+                            </div>
+                            <h3 class="tile__title">Yellow</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">Background: #fef3c7<br>Text: #92400e<br>Border: #fde68a</p>
+                            <span class="tile__meta">Pending, warning states</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #d1fae5; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid #a7f3d0; display: flex; align-items: center; justify-content: center;">
+                                <span class="badge badge--green">Green Badge</span>
+                            </div>
+                            <h3 class="tile__title">Green</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">Background: #d1fae5<br>Text: #065f46<br>Border: #a7f3d0</p>
+                            <span class="tile__meta">Active, success states</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #fee2e2; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid #fecaca; display: flex; align-items: center; justify-content: center;">
+                                <span class="badge badge--red">Red Badge</span>
+                            </div>
+                            <h3 class="tile__title">Red</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">Background: #fee2e2<br>Text: #991b1b<br>Border: #fecaca</p>
+                            <span class="tile__meta">Error, danger states</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #dbeafe; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid #bfdbfe; display: flex; align-items: center; justify-content: center;">
+                                <span class="badge badge--blue">Blue Badge</span>
+                            </div>
+                            <h3 class="tile__title">Blue</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">Background: #dbeafe<br>Text: #1e40af<br>Border: #bfdbfe</p>
+                            <span class="tile__meta">Info, informational states</span>
+                        </div>
+                    </div>
+                    <div class="tile tile--shadow">
+                        <div class="tile__body">
+                            <div style="width: 100%; height: 80px; background: #e5e5e5; border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border: 1px solid #d4d4d4; display: flex; align-items: center; justify-content: center;">
+                                <span class="badge badge--gray">Gray Badge</span>
+                            </div>
+                            <h3 class="tile__title">Gray (Light Mode)</h3>
+                            <p class="tile__text" style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-xs);">Background: #e5e5e5 (Neutral 200)<br>Text: #262626 (Neutral 800)<br>Border: #d4d4d4 (Neutral 300)</p>
+                            <span class="tile__meta">Neutral, default states</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: var(--spacing-lg); padding: var(--spacing-md); background: var(--color-bg-alt); border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+                    <h4 style="font-size: var(--font-size-base); margin-bottom: var(--spacing-sm);">Dark Mode Badge Colors</h4>
+                    <div style="font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: var(--spacing-xs);">
+                        <strong>Yellow:</strong> Background #78350f, Text #fde68a, Border #92400e
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: var(--spacing-xs);">
+                        <strong>Green:</strong> Background #064e3b, Text #a7f3d0, Border #065f46
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: var(--spacing-xs);">
+                        <strong>Red:</strong> Background #7f1d1d, Text #fecaca, Border #991b1b
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--color-text-light); margin-bottom: var(--spacing-xs);">
+                        <strong>Blue:</strong> Background #1e3a8a, Text #bfdbfe, Border #1e40af
+                    </div>
+                    <div style="font-size: var(--font-size-sm); color: var(--color-text-light);">
+                        <strong>Gray:</strong> Background #737373 (Neutral 400), Text #fafafa (Neutral 900), Border #a3a3a3 (Neutral 500)
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Button Examples -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Button Component</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                Neutral gray buttons with various styles and sizes. All buttons use a neutral color palette from white to dark gray. 
+                Buttons support icons in leading, trailing, or icon-only configurations.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+                <button class="btn btn--primary">Primary</button>
+                <button class="btn btn--secondary">Secondary</button>
+                <button class="btn btn--outline">Outline</button>
+                <button class="btn btn--ghost">Ghost</button>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+                <button class="btn btn--primary btn--sm">Small</button>
+                <button class="btn btn--primary">Default</button>
+                <button class="btn btn--primary btn--lg">Large</button>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+                <button class="btn btn--primary btn--loading">Loading</button>
+                <button class="btn btn--primary" disabled>Disabled</button>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center;">
+                <button class="btn btn--primary btn--icon-leading">
+                    <span class="btn__icon" data-icon="arrow-right" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                    Leading Icon
+                </button>
+                <button class="btn btn--primary btn--icon-trailing">
+                    Trailing Icon
+                    <span class="btn__icon" data-icon="arrow-left" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                </button>
+                <button class="btn btn--primary btn--icon-only" aria-label="Icon only button">
+                    <span class="btn__icon" data-icon="star" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                </button>
+                <button class="btn btn--secondary btn--icon-leading">
+                    <span class="btn__icon" data-icon="heart" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                    With Icon
+                </button>
+                <button class="btn btn--outline btn--icon-only btn--sm" aria-label="Small icon only">
+                    <span class="btn__icon" data-icon="bell" data-icon-size="14" data-icon-style="solid" data-icon-replace></span>
+                </button>
+                <button class="btn btn--primary btn--icon-only btn--lg" aria-label="Large icon only">
+                    <span class="btn__icon" data-icon="sparkles" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Status Badge Examples -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Status Badge Component</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                Colorful status badges for indicating states, categories, or labels. Available in yellow, green, red, blue, and gray variants.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-lg); align-items: center;">
+                <span class="badge badge--yellow">Yellow</span>
+                <span class="badge badge--green">Green</span>
+                <span class="badge badge--red">Red</span>
+                <span class="badge badge--blue">Blue</span>
+                <span class="badge badge--gray">Gray</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-lg); align-items: center;">
+                <span class="badge badge--yellow badge--sm">Small Yellow</span>
+                <span class="badge badge--green badge--sm">Small Green</span>
+                <span class="badge badge--red badge--sm">Small Red</span>
+                <span class="badge badge--blue badge--sm">Small Blue</span>
+                <span class="badge badge--gray badge--sm">Small Gray</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center;">
+                <span class="badge badge--yellow badge--lg">Large Yellow</span>
+                <span class="badge badge--green badge--lg">Large Green</span>
+                <span class="badge badge--red badge--lg">Large Red</span>
+                <span class="badge badge--blue badge--lg">Large Blue</span>
+                <span class="badge badge--gray badge--lg">Large Gray</span>
+            </div>
+            <div style="margin-top: var(--spacing-lg); padding: var(--spacing-lg); background: var(--color-bg-alt); border-radius: var(--radius-md);">
+                <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Usage Examples</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center;">
+                    <span class="badge badge--green">Active</span>
+                    <span class="badge badge--yellow">Pending</span>
+                    <span class="badge badge--red">Error</span>
+                    <span class="badge badge--blue">Info</span>
+                    <span class="badge badge--gray">Neutral</span>
+                </div>
+            </div>
+            <div style="margin-top: var(--spacing-lg);">
+                <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Badges with Icons</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center;">
+                    <span class="badge badge--green badge--icon-leading">
+                        <span class="badge__icon" data-icon="check-circle" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                        Active
+                    </span>
+                    <span class="badge badge--yellow badge--icon-leading">
+                        <span class="badge__icon" data-icon="clock" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                        Pending
+                    </span>
+                    <span class="badge badge--red badge--icon-trailing">
+                        Error
+                        <span class="badge__icon" data-icon="x-circle" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                    </span>
+                    <span class="badge badge--blue badge--icon-leading">
+                        <span class="badge__icon" data-icon="information-circle" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                        Info
+                    </span>
+                    <span class="badge badge--gray badge--icon-trailing">
+                        Neutral
+                        <span class="badge__icon" data-icon="minus" data-icon-size="16" data-icon-style="solid" data-icon-replace></span>
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tile Grid Examples -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Tile Grid System</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                Responsive grid system with flexible tile components. Tiles can function as links, containers, 
+                or interactive cards with various styling options.
+            </p>
+            
+            <!-- Auto-fit Responsive Grid -->
+            <div class="tile-grid tile-grid--auto">
+                <!-- Link Tile with Header -->
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__header">
+                        <h3 class="tile__title">Link Tile with Header</h3>
+                        <span class="tile__header-icon" data-icon="arrow-top-right-on-square" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+                    </div>
+                    <div class="tile__body">
+                        <p class="tile__text">This is a tile that functions as a link. It contains arbitrary content and has responsive width.</p>
+                        <span class="tile__meta">Web Design • 2024</span>
+                    </div>
+                </a>
+                
+                <!-- Link Tile with Image -->
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__header">
+                        <h3 class="tile__title">Link Tile with Image</h3>
+                        <span class="tile__header-icon" data-icon="photo" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+                    </div>
+                    <div class="tile__body">
+                        <div style="width: 100%; height: 150px; background: linear-gradient(135deg, var(--color-gray-400), var(--color-gray-600)); border-radius: var(--radius-md); margin-bottom: var(--spacing-md);"></div>
+                        <p class="tile__text">Tiles can contain images, text, and any other content you need.</p>
+                    </div>
+                    <div class="tile__footer">
+                        <span class="tile__meta">Branding • 2024</span>
+                    </div>
+                </a>
+                
+                <!-- Tile with Action Buttons -->
+                <div class="tile tile--shadow tile--interactive">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Tile with Action Buttons</h3>
+                        <p class="tile__text">Tiles can be interactive without being links. Add the tile--interactive class to enable hover states.</p>
+                    </div>
+                    <div class="tile__footer">
+                        <div class="tile__actions">
+                            <button class="btn btn--primary">View</button>
+                            <button class="btn btn--outline">Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wide Spanning Tile -->
+                <a href="#" class="tile tile--shadow tile--span-2">
+                    <div class="tile__header">
+                        <h3 class="tile__title">Wide Spanning Tile</h3>
+                        <span class="badge badge--green">Featured</span>
+                    </div>
+                    <div class="tile__body">
+                        <p class="tile__text">This tile spans 2 columns using the tile--span-2 modifier. Perfect for featuring important content.</p>
+                        <span class="tile__meta">Portfolio • 2024</span>
+                    </div>
+                </a>
+                
+                <!-- Bordered Tile -->
+                <a href="#" class="tile tile--bordered">
+                    <div class="tile__header">
+                        <h3 class="tile__title">Bordered Tile</h3>
+                        <span class="badge badge--blue">New</span>
+                    </div>
+                    <div class="tile__body">
+                        <p class="tile__text">A simple bordered tile variant.</p>
+                    </div>
+                </a>
+                
+                <!-- Flat Tile -->
+                <a href="#" class="tile tile--flat">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Flat Tile</h3>
+                        <p class="tile__text">Flat tile style with subtle hover effect.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Fixed Column Grid Example -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Fixed Column Grids</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                Grid layouts with fixed column counts that automatically adapt to smaller screens.
+            </p>
+            <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md); margin-top: var(--spacing-lg);">3 Column Grid</h3>
+            <div class="tile-grid tile-grid--cols-3">
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Basic Tile</h3>
+                        <p class="tile__text">Fixed 3-column layout.</p>
+                    </div>
+                </a>
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Basic Tile</h3>
+                        <p class="tile__text">Responsive on mobile.</p>
+                    </div>
+                </a>
+                <a href="#" class="tile tile--shadow">
+                    <div class="tile__body">
+                        <h3 class="tile__title">Basic Tile</h3>
+                        <p class="tile__text">Automatically adjusts.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Modal Component -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Modal Component</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                Responsive modal dialogs that display as floating windows on desktop and full-screen on mobile. 
+                Modals can contain any content and include header, body, and footer sections.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md);">
+                <button class="btn btn--primary" data-modal-trigger="demo-modal">Open Modal</button>
+            </div>
+        </section>
+        
+        <!-- Marquee Component -->
+        <section style="margin-bottom: var(--spacing-2xl);">
+            <h2 style="margin-bottom: var(--spacing-lg);">Marquee Component</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                Scrolling text component that displays text continuously across the screen at a constant rate. 
+                Uses a monospaced font and displays directly on the page background.
+            </p>
+            <div class="marquee">
+                <div class="marquee__content">
+                    <span class="marquee__wrapper">
+                        <span>Portfolio • Design • Development • Creative • Innovation • Portfolio • Design • Development • Creative • Innovation •</span>
+                        <span>Portfolio • Design • Development • Creative • Innovation • Portfolio • Design • Development • Creative • Innovation •</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Theme Information -->
+        <section style="margin-bottom: var(--spacing-2xl); padding: var(--spacing-xl); background: var(--color-bg-alt); border-radius: var(--radius-lg);">
+            <h2 style="margin-bottom: var(--spacing-md);">Theme System</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-md);">
+                This component system uses CSS variables for easy theming. Toggle between light and dark themes using the button in the navbar. 
+                Your preference is saved and will persist across sessions.
+            </p>
+            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap;">
+                <span style="display: inline-flex; align-items: center; padding: var(--spacing-sm) var(--spacing-md); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-size-sm);">
+                    <span style="margin-right: var(--spacing-sm);">🎨</span>
+                    CSS Variables
+                </span>
+                <span style="display: inline-flex; align-items: center; padding: var(--spacing-sm) var(--spacing-md); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-size-sm);">
+                    <span style="margin-right: var(--spacing-sm);">🌓</span>
+                    Theme Toggle
+                </span>
+                <span style="display: inline-flex; align-items: center; padding: var(--spacing-sm) var(--spacing-md); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-size-sm);">
+                    <span style="margin-right: var(--spacing-sm);">💾</span>
+                    Persistent Storage
+                </span>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Navigation Modal -->
+    <div id="nav-modal" class="modal">
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <h2 class="modal__title">Navigation</h2>
+                <button class="modal__close" data-modal-close aria-label="Close modal">×</button>
+            </div>
+            <div class="modal__body">
+                <nav class="tile-grid tile-grid--cols-2" style="gap: var(--spacing-md);">
+                    <a href="index.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Home</div>
+                        </div>
+                    </a>
+                    <a href="about.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">About</div>
+                        </div>
+                    </a>
+                    <a href="work.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Work</div>
+                        </div>
+                    </a>
+                    <a href="contact.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Contact</div>
+                        </div>
+                    </a>
+                    <a href="components.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Components</div>
+                        </div>
+                    </a>
+                    <a href="gallery.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Gallery</div>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Demo Modal -->
+    <div id="demo-modal" class="modal">
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <h2 class="modal__title">Modal Example</h2>
+                <button class="modal__close" data-modal-close aria-label="Close modal">×</button>
+            </div>
+            <div class="modal__body">
+                <p style="margin-bottom: var(--spacing-md);">
+                    This is a modal dialog component. On desktop, it appears as a floating window. 
+                    On mobile devices, it takes up the full screen for better usability.
+                </p>
+                <p style="margin-bottom: var(--spacing-md);">
+                    The modal can contain any content, including other components like buttons, badges, and more.
+                </p>
+                <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; margin-bottom: var(--spacing-md);">
+                    <span class="badge badge--green">Active</span>
+                    <span class="badge badge--blue">Info</span>
+                    <span class="badge badge--yellow">Warning</span>
+                </div>
+                <p>
+                    You can close this modal by clicking the × button, clicking outside the modal, or pressing the Escape key.
+                </p>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--outline" data-modal-close>Cancel</button>
+                <button class="btn btn--primary" data-modal-close>Confirm</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

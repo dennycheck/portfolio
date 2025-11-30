@@ -201,6 +201,51 @@ To create an alternative theme:
 <link rel="stylesheet" href="themes/dark.css">
 ```
 
+## Status Badge Component
+
+### Usage
+```html
+<span class="badge badge--green">Active</span>
+```
+
+### Color Variants
+- `.badge--yellow` - Yellow badge (warning/pending states)
+- `.badge--green` - Green badge (success/active states)
+- `.badge--red` - Red badge (error/critical states)
+- `.badge--blue` - Blue badge (info states)
+- `.badge--gray` - Gray badge (neutral states)
+
+### Sizes
+- `.badge--sm` - Small badge
+- Default - Medium badge (no modifier)
+- `.badge--lg` - Large badge
+
+### Example: Complete Badge Usage
+```html
+<!-- Status indicators -->
+<span class="badge badge--green">Active</span>
+<span class="badge badge--yellow">Pending</span>
+<span class="badge badge--red">Error</span>
+<span class="badge badge--blue">Info</span>
+<span class="badge badge--gray">Neutral</span>
+
+<!-- With sizes -->
+<span class="badge badge--green badge--sm">Small</span>
+<span class="badge badge--green">Default</span>
+<span class="badge badge--green badge--lg">Large</span>
+```
+
+## Color System
+
+### Neutral Gray Palette
+The component system uses a neutral gray color ramp for all UI elements:
+- Buttons use neutral grays from white to dark gray
+- Dark theme uses pure neutral dark grays (no color tints)
+- All interactive elements maintain neutral gray styling
+
+### Status Colors
+Status badges provide color accents (yellow, green, red, blue, gray) while maintaining the neutral base system.
+
 ## Adding New Components
 
 1. Define component base class

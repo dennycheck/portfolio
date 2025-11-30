@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="icon-loader.js" defer></script>
+    <script src="themes/theme-toggle.js" defer></script>
+    <script src="modal.js" defer></script>
+</head>
+<body>
+    <!-- Navigation Bar Component -->
+    <nav class="navbar navbar--sticky">
+        <!-- Left Slot: Logo -->
+        <div class="navbar__slot navbar__slot--left">
+            <a href="index.html" class="navbar__logo">Portfolio</a>
+        </div>
+        
+        <!-- Center Slot: Navigation Links -->
+        <div class="navbar__slot navbar__slot--center">
+            <ul class="navbar__nav">
+                <li><a href="index.html" class="navbar__link">Home</a></li>
+                <li><a href="about.html" class="navbar__link">About</a></li>
+                <li><a href="work.html" class="navbar__link">Work</a></li>
+                <li><a href="contact.html" class="navbar__link navbar__link--active">Contact</a></li>
+                <li><a href="components.html" class="navbar__link">Components</a></li>
+                <li><a href="gallery.html" class="navbar__link">Gallery</a></li>
+            </ul>
+        </div>
+        
+        <!-- Right Slot: Mobile Menu, Theme Toggle & Button -->
+        <div class="navbar__slot navbar__slot--right">
+            <button class="btn btn--ghost navbar__mobile-menu-btn btn--icon-only" data-modal-trigger="nav-modal" aria-label="Open navigation menu">
+                <span class="btn__icon" data-icon="bars-3" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+            </button>
+            <button class="btn btn--ghost theme-toggle btn--icon-only" data-theme-toggle aria-label="Toggle theme" aria-pressed="false">
+                <span class="btn__icon theme-toggle__icon" data-icon="moon" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+            </button>
+            <button class="btn btn--primary">Get Started</button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main style="padding: var(--spacing-xl); max-width: 1400px; margin: 0 auto;">
+        <h1>Contact</h1>
+    </main>
+    
+    <!-- Navigation Modal -->
+    <div id="nav-modal" class="modal">
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <h2 class="modal__title">Navigation</h2>
+                <button class="modal__close" data-modal-close aria-label="Close modal">×</button>
+            </div>
+            <div class="modal__body">
+                <nav class="tile-grid tile-grid--cols-2" style="gap: var(--spacing-md);">
+                    <a href="index.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Home</div>
+                        </div>
+                    </a>
+                    <a href="about.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">About</div>
+                        </div>
+                    </a>
+                    <a href="work.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Work</div>
+                        </div>
+                    </a>
+                    <a href="contact.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Contact</div>
+                        </div>
+                    </a>
+                    <a href="components.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Components</div>
+                        </div>
+                    </a>
+                    <a href="gallery.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Gallery</div>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

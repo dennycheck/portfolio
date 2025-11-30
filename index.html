@@ -3,134 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Home - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Alternative stylesheets can be added here -->
-    <!-- <link rel="stylesheet" href="themes/dark.css"> -->
-    <!-- <link rel="stylesheet" href="themes/minimal.css"> -->
+    <script src="icon-loader.js" defer></script>
+    <script src="themes/theme-toggle.js" defer></script>
+    <script src="modal.js" defer></script>
 </head>
 <body>
     <!-- Navigation Bar Component -->
     <nav class="navbar navbar--sticky">
         <!-- Left Slot: Logo -->
         <div class="navbar__slot navbar__slot--left">
-            <a href="#" class="navbar__logo">Portfolio</a>
+            <a href="index.html" class="navbar__logo">Portfolio</a>
         </div>
         
         <!-- Center Slot: Navigation Links -->
         <div class="navbar__slot navbar__slot--center">
             <ul class="navbar__nav">
-                <li><a href="#" class="navbar__link navbar__link--active">Home</a></li>
-                <li><a href="#" class="navbar__link">About</a></li>
-                <li><a href="#" class="navbar__link">Work</a></li>
-                <li><a href="#" class="navbar__link">Contact</a></li>
+                <li><a href="index.html" class="navbar__link navbar__link--active">Home</a></li>
+                <li><a href="about.html" class="navbar__link">About</a></li>
+                <li><a href="work.html" class="navbar__link">Work</a></li>
+                <li><a href="contact.html" class="navbar__link">Contact</a></li>
+                <li><a href="components.html" class="navbar__link">Components</a></li>
+                <li><a href="gallery.html" class="navbar__link">Gallery</a></li>
             </ul>
         </div>
         
-        <!-- Right Slot: Button -->
+        <!-- Right Slot: Mobile Menu, Theme Toggle & Button -->
         <div class="navbar__slot navbar__slot--right">
+            <button class="btn btn--ghost navbar__mobile-menu-btn btn--icon-only" data-modal-trigger="nav-modal" aria-label="Open navigation menu">
+                <span class="btn__icon" data-icon="bars-3" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+            </button>
+            <button class="btn btn--ghost theme-toggle btn--icon-only" data-theme-toggle aria-label="Toggle theme" aria-pressed="false">
+                <span class="btn__icon theme-toggle__icon" data-icon="moon" data-icon-size="20" data-icon-style="solid" data-icon-replace></span>
+            </button>
             <button class="btn btn--primary">Get Started</button>
         </div>
     </nav>
     
     <!-- Main Content -->
     <main style="padding: var(--spacing-xl); max-width: 1400px; margin: 0 auto;">
-        <h1 style="margin-bottom: var(--spacing-xl);">Component System Demo</h1>
-        
-        <!-- Tile Grid Examples -->
-        <section style="margin-bottom: var(--spacing-2xl);">
-            <h2 style="margin-bottom: var(--spacing-lg);">Tile Grid System</h2>
-            
-            <!-- Auto-fit Responsive Grid -->
-            <div class="tile-grid tile-grid--auto">
-                <!-- Tile as Link -->
-                <a href="#" class="tile tile--shadow">
-                    <div class="tile__header">
-                        <h3 class="tile__title">Project One</h3>
-                    </div>
-                    <div class="tile__body">
-                        <p class="tile__text">This is a tile that functions as a link. It contains arbitrary content and has responsive width.</p>
-                        <span class="tile__meta">Web Design • 2024</span>
-                    </div>
-                </a>
-                
-                <!-- Tile with Image -->
-                <a href="#" class="tile tile--shadow">
-                    <div class="tile__body">
-                        <div style="width: 100%; height: 150px; background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); border-radius: var(--radius-md); margin-bottom: var(--spacing-md);"></div>
-                        <h3 class="tile__title">Project Two</h3>
-                        <p class="tile__text">Tiles can contain images, text, and any other content you need.</p>
-                    </div>
-                    <div class="tile__footer">
-                        <span class="tile__meta">Branding • 2024</span>
-                    </div>
-                </a>
-                
-                <!-- Tile with Actions -->
-                <div class="tile tile--shadow">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Project Three</h3>
-                        <p class="tile__text">Tiles don't have to be links. They can be containers for any content.</p>
-                    </div>
-                    <div class="tile__footer">
-                        <div class="tile__actions">
-                            <button class="btn btn--primary btn--sm">View</button>
-                            <button class="btn btn--outline btn--sm">Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Wide Spanning Tile -->
-                <a href="#" class="tile tile--shadow tile--span-2">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Featured Project</h3>
-                        <p class="tile__text">This tile spans 2 columns using the tile--span-2 modifier. Perfect for featuring important content.</p>
-                        <span class="tile__meta">Featured • Portfolio • 2024</span>
-                    </div>
-                </a>
-                
-                <!-- Simple Tile -->
-                <a href="#" class="tile tile--bordered">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Project Four</h3>
-                        <p class="tile__text">A simple bordered tile variant.</p>
-                    </div>
-                </a>
-                
-                <!-- Flat Tile -->
-                <a href="#" class="tile tile--flat">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Project Five</h3>
-                        <p class="tile__text">Flat tile style with subtle hover effect.</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-        
-        <!-- Fixed Column Grid Example -->
-        <section style="margin-bottom: var(--spacing-2xl);">
-            <h2 style="margin-bottom: var(--spacing-lg);">3 Column Grid</h2>
-            <div class="tile-grid tile-grid--cols-3">
-                <a href="#" class="tile tile--shadow">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Tile 1</h3>
-                        <p class="tile__text">Fixed 3-column layout.</p>
-                    </div>
-                </a>
-                <a href="#" class="tile tile--shadow">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Tile 2</h3>
-                        <p class="tile__text">Responsive on mobile.</p>
-                    </div>
-                </a>
-                <a href="#" class="tile tile--shadow">
-                    <div class="tile__body">
-                        <h3 class="tile__title">Tile 3</h3>
-                        <p class="tile__text">Automatically adjusts.</p>
-                    </div>
-                </a>
-            </div>
-        </section>
+        <h1>Home</h1>
     </main>
+    
+    <!-- Navigation Modal -->
+    <div id="nav-modal" class="modal">
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <h2 class="modal__title">Navigation</h2>
+                <button class="modal__close" data-modal-close aria-label="Close modal">×</button>
+            </div>
+            <div class="modal__body">
+                <nav class="tile-grid tile-grid--cols-2" style="gap: var(--spacing-md);">
+                    <a href="index.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Home</div>
+                        </div>
+                    </a>
+                    <a href="about.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">About</div>
+                        </div>
+                    </a>
+                    <a href="work.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Work</div>
+                        </div>
+                    </a>
+                    <a href="contact.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Contact</div>
+                        </div>
+                    </a>
+                    <a href="components.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Components</div>
+                        </div>
+                    </a>
+                    <a href="gallery.html" class="tile tile--shadow" style="min-height: 120px; display: flex; align-items: center; justify-content: center; text-decoration: none;" data-modal-close>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text);">Gallery</div>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
