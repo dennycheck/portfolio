@@ -79,6 +79,67 @@
                     }
                 }
                 
+                // Handle Stockholm modal
+                if (modalId === 'stockholm-modal') {
+                    const galleryItem = this.querySelector('.gallery__image');
+                    if (galleryItem) {
+                        const modalImageContainer = document.getElementById('stockholm-modal-image');
+                        if (modalImageContainer) {
+                            modalImageContainer.innerHTML = '';
+                            
+                            // Get the aspect ratio from the item
+                            const item = this;
+                            const widthNum = parseFloat(item.getAttribute('data-width'));
+                            const heightNum = parseFloat(item.getAttribute('data-height'));
+                            let aspectRatio = 1;
+                            if (widthNum && heightNum && heightNum > 0) {
+                                aspectRatio = widthNum / heightNum;
+                            }
+                            
+                            // Create a square wrapper div for the display area
+                            const wrapper = document.createElement('div');
+                            wrapper.style.width = '100%';
+                            wrapper.style.aspectRatio = '1';
+                            wrapper.style.display = 'flex';
+                            wrapper.style.alignItems = 'center';
+                            wrapper.style.justifyContent = 'center';
+                            wrapper.style.background = 'transparent';
+                            
+                            // Clone the image element
+                            const imageElement = galleryItem.cloneNode(true);
+                            
+                            // Get the original inline style if it exists
+                            const originalStyle = galleryItem.getAttribute('style') || '';
+                            
+                            // Build the new style string, preserving original styles and adding sizing
+                            let newStyle = originalStyle;
+                            
+                            // Set aspect ratio and sizing
+                            newStyle += `; aspect-ratio: ${aspectRatio}; border-radius: 0; object-fit: contain;`;
+                            
+                            // Determine which dimension should be 100%
+                            if (aspectRatio < 1) {
+                                // Tall image - height should be 100%
+                                newStyle += ` width: auto; height: 100%; max-width: 100%; max-height: 100%;`;
+                            } else {
+                                // Wide or square image - width should be 100%
+                                newStyle += ` width: 100%; height: auto; max-width: 100%; max-height: 100%;`;
+                            }
+                            
+                            imageElement.setAttribute('style', newStyle);
+                            
+                            wrapper.appendChild(imageElement);
+                            modalImageContainer.appendChild(wrapper);
+                        }
+                        
+                        // Update modal description
+                        const descriptionElement = document.getElementById('stockholm-modal-description');
+                        if (descriptionElement) {
+                            descriptionElement.textContent = 'A gif created in 2025.';
+                        }
+                    }
+                }
+                
                 openModal(modalId);
             });
         });

@@ -414,16 +414,8 @@ a:hover {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    /* Preserve aspect ratio - use CSS variable set by JavaScript */
-    aspect-ratio: var(--image-aspect-ratio, 1);
-    /* Make longest dimension match container - use width: 100% and let aspect-ratio handle height */
-    /* If aspect ratio > 1 (wide), width will be 100%, height will be smaller */
-    /* If aspect ratio < 1 (tall), width will be 100%, height will be larger, but max-height will constrain */
-    width: 100%;
-    height: auto;
     max-width: 100%;
     max-height: 100%;
-    /* For tall images, we need height to be 100% instead - JavaScript will handle this */
     object-fit: contain;
 }
 

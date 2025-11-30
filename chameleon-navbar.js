@@ -2,6 +2,8 @@
  * Experimental Chameleon Navbar
  * Dynamically changes navbar text color based on content scrolling beneath it
  * Samples actual colors underneath the navbar to determine text color
+ * 
+ * Version: 3.1 - Improved color sampling with multi-point detection
  */
 
 (function() {
@@ -14,6 +16,109 @@
             return;
         }
         console.log('Chameleon navbar: Found navbar element', navbar);
+        
+        /**
+         * Convert RGB to XYZ (D65 white point)
+         */
+        function rgbToXyz(r, g, b) {
+            // Normalize to 0-1
+            r = r / 255;
+            g = g / 255;
+            b = b / 255;
+            
+            // Apply gamma correction
+            r = r > 0.04045 ? Math.pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+            g = g > 0.04045 ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+            b = b > 0.04045 ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+            
+            // Convert to XYZ using sRGB matrix
+            const x = (r * 0.4124564 + g * 0.3575761 + b * 0.1804375) * 100;
+            const y = (r * 0.2126729 + g * 0.7151522 + b * 0.0721750) * 100;
+            const z = (r * 0.0193339 + g * 0.1191920 + b * 0.9503041) * 100;
+            
+            return { x, y, z };
+        }
+        
+        /**
+         * Convert XYZ to LAB (D65 white point)
+         */
+        function xyzToLab(x, y, z) {
+            // D65 white point
+            const xn = 95.047;
+            const yn = 100.000;
+            const zn = 108.883;
+            
+            // Normalize by white point
+            x = x / xn;
+            y = y / yn;
+            z = z / zn;
+            
+            // Apply f function
+            const fx = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x + 16/116);
+            const fy = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y + 16/116);
+            const fz = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z + 16/116);
+            
+            const l = (116 * fy) - 16;
+            const a = 500 * (fx - fy);
+            const b = 200 * (fy - fz);
+            
+            return { l, a, b };
+        }
+        
+        /**
+         * Convert LAB to XYZ (D65 white point)
+         */
+        function labToXyz(l, a, b) {
+            // D65 white point
+            const xn = 95.047;
+            const yn = 100.000;
+            const zn = 108.883;
+            
+            const fy = (l + 16) / 116;
+            const fx = a / 500 + fy;
+            const fz = fy - b / 200;
+            
+            const xr = fx > 0.206897 ? Math.pow(fx, 3) : (fx - 16/116) / 7.787;
+            const yr = fy > 0.206897 ? Math.pow(fy, 3) : (fy - 16/116) / 7.787;
+            const zr = fz > 0.206897 ? Math.pow(fz, 3) : (fz - 16/116) / 7.787;
+            
+            return {
+                x: xr * xn,
+                y: yr * yn,
+                z: zr * zn
+            };
+        }
+        
+        /**
+         * Convert XYZ to RGB
+         */
+        function xyzToRgb(x, y, z) {
+            // Normalize from 0-100 to 0-1
+            x = x / 100;
+            y = y / 100;
+            z = z / 100;
+            
+            // Convert to RGB using sRGB matrix
+            let r = x *  3.2404542 + y * -1.5371385 + z * -0.4985314;
+            let g = x * -0.9692660 + y *  1.8760108 + z *  0.0415560;
+            let b = x *  0.0556434 + y * -0.2040259 + z *  1.0572252;
+            
+            // Apply gamma correction
+            r = r > 0.0031308 ? 1.055 * Math.pow(r, 1/2.4) - 0.055 : 12.92 * r;
+            g = g > 0.0031308 ? 1.055 * Math.pow(g, 1/2.4) - 0.055 : 12.92 * g;
+            b = b > 0.0031308 ? 1.055 * Math.pow(b, 1/2.4) - 0.055 : 12.92 * b;
+            
+            // Clamp and convert to 0-255
+            r = Math.max(0, Math.min(1, r)) * 255;
+            g = Math.max(0, Math.min(1, g)) * 255;
+            b = Math.max(0, Math.min(1, b)) * 255;
+            
+            return {
+                r: Math.round(r),
+                g: Math.round(g),
+                b: Math.round(b)
+            };
+        }
         
         /**
          * Convert RGB to HSL
@@ -81,71 +186,115 @@
         }
         
         /**
-         * Invert color with more natural handling of neutral colors
+         * Convert LAB to LCH (Lightness, Chroma, Hue)
+         * LCH is LAB in polar coordinates - hue is explicit
+         */
+        function labToLch(l, a, b) {
+            const c = Math.sqrt(a * a + b * b);
+            let h = 0;
+            if (c > 0.0001) {
+                h = Math.atan2(b, a) * 180 / Math.PI;
+                if (h < 0) h += 360;
+            }
+            return { l: l, c: c, h: h };
+        }
+        
+        /**
+         * Convert LCH to LAB (Lightness, Chroma, Hue)
+         */
+        function lchToLab(l, c, h) {
+            const hRad = h * Math.PI / 180;
+            const a = c * Math.cos(hRad);
+            const b = c * Math.sin(hRad);
+            return { l: l, a: a, b: b };
+        }
+        
+        /**
+         * Invert color using HSL with hue rotation - simpler and proven to work
+         * Rotates hue by 180° for true complements: Green → Magenta, Purple → Yellow, Blue → Orange
+         * Middle-tone grays snap to black/white for contrast
          */
         function invertColor(r, g, b) {
-            const hsl = rgbToHsl(r, g, b);
+            // Convert RGB to HSL
+            r /= 255;
+            g /= 255;
+            b /= 255;
             
-            // For neutral/low saturation colors (grays), ensure contrast
-            if (hsl.s < 20) {
-                // Low saturation - treat as neutral
-                // If it's a middle gray (lightness 40-60%), choose black or white for contrast
-                if (hsl.l >= 40 && hsl.l <= 60) {
-                    // Middle gray - choose black or white based on which has better contrast
-                    // Calculate relative luminance for contrast ratio
-                    const l1 = hsl.l / 100; // Original lightness as 0-1
-                    const l2Black = 0; // Black luminance
-                    const l2White = 1; // White luminance
-                    
-                    // WCAG contrast ratio: (L1 + 0.05) / (L2 + 0.05)
-                    const contrastWithBlack = (l1 + 0.05) / (l2Black + 0.05);
-                    const contrastWithWhite = (l2White + 0.05) / (l1 + 0.05);
-                    
-                    // Choose the one with better contrast (higher ratio)
-                    if (contrastWithBlack > contrastWithWhite) {
-                        return { r: 0, g: 0, b: 0 }; // Black
-                    } else {
-                        return { r: 255, g: 255, b: 255 }; // White
-                    }
-                }
-                // For non-middle grays, just invert lightness
-                const invertedL = 100 - hsl.l;
-                return hslToRgb(hsl.h, hsl.s, invertedL);
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            // Calculate saturation
+            const d = max - min;
+            s = max === min ? 0 : (l > 0.5 ? d / (2 - max - min) : d / (max + min));
+            
+            // Check if this is a middle-tone gray (low saturation, medium lightness)
+            // Middle-tone grays have no hue, so hue rotation doesn't help - force black/white for contrast
+            if (s < 0.1 && l >= 0.4 && l <= 0.6) {
+                // Middle-tone gray - choose black or white based on which has better contrast
+                const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                // If original is closer to white (luminance > 0.5), use black; otherwise white
+                return luminance > 0.5 ? { r: 0, g: 0, b: 0 } : { r: 255, g: 255, b: 255 };
             }
             
-            // For colored/high saturation colors, invert hue and adjust saturation/lightness
-            // Invert hue (add 180 degrees, wrap around)
-            let invertedH = (hsl.h + 180) % 360;
+            // For pure grays (no saturation at all) - just invert lightness
+            if (max === min) {
+                const invertedL = 1 - l;
+                const gray = Math.round(invertedL * 255);
+                return { r: gray, g: gray, b: gray };
+            }
             
-            // For saturation: if very saturated, reduce it slightly; if medium, invert it
-            let invertedS;
-            if (hsl.s > 80) {
-                // Very saturated - reduce saturation for more natural look
-                invertedS = 100 - hsl.s * 0.7;
+            // Calculate hue for colored colors
+            switch (max) {
+                case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                case g: h = ((b - r) / d + 2) / 6; break;
+                case b: h = ((r - g) / d + 4) / 6; break;
+            }
+            
+            h = h * 360; // Convert to degrees
+            
+            // Rotate hue by 180° for complement
+            h = (h + 180) % 360;
+            
+            // For blue specifically, ensure we get orange not yellow
+            if (h >= 55 && h <= 65) {
+                h = 30; // Pure orange
+            }
+            
+            // Set saturation to maximum for vibrant colors
+            s = 1.0;
+            
+            // Set lightness for contrast: light backgrounds → dark text, dark backgrounds → light text
+            const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            l = luminance > 0.5 ? 0.35 : 0.65; // Dark for light backgrounds, light for dark backgrounds
+            
+            // Convert HSL back to RGB
+            h = h / 360;
+            const hue2rgb = function(p, q, t) {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            };
+            
+            let r2, g2, b2;
+            if (s === 0) {
+                r2 = g2 = b2 = l;
             } else {
-                // Medium/low saturation - invert it
-                invertedS = 100 - hsl.s;
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r2 = hue2rgb(p, q, h + 1/3);
+                g2 = hue2rgb(p, q, h);
+                b2 = hue2rgb(p, q, h - 1/3);
             }
             
-            // Invert lightness (complement)
-            const invertedL = 100 - hsl.l;
-            
-            // Check if the inverted color is also a middle gray - if so, push to extreme
-            if (invertedL >= 40 && invertedL <= 60 && invertedS < 30) {
-                // Inverted color is also a middle gray - choose black or white for contrast
-                const l1 = invertedL / 100;
-                const contrastWithBlack = (l1 + 0.05) / 0.05;
-                const contrastWithWhite = 1.05 / (l1 + 0.05);
-                
-                if (contrastWithBlack > contrastWithWhite) {
-                    return { r: 0, g: 0, b: 0 };
-                } else {
-                    return { r: 255, g: 255, b: 255 };
-                }
-            }
-            
-            // Convert back to RGB
-            return hslToRgb(invertedH, invertedS, invertedL);
+            return {
+                r: Math.round(r2 * 255),
+                g: Math.round(g2 * 255),
+                b: Math.round(b2 * 255)
+            };
         }
         
         /**
@@ -171,6 +320,7 @@
         
         /**
          * Parse CSS color string to RGB values
+         * FIXED: Check 6-digit hex BEFORE 3-digit to avoid #0000ff matching as #000
          */
         function parseColor(colorStr) {
             if (!colorStr || colorStr === 'transparent' || colorStr === 'rgba(0, 0, 0, 0)') {
@@ -189,17 +339,28 @@
                 };
             }
             
-            // Handle hex
-            const hexMatch = colorStr.match(/#([0-9a-f]{3}|[0-9a-f]{6})/i);
-            if (hexMatch) {
-                let hex = hexMatch[1];
-                if (hex.length === 3) {
-                    hex = hex.split('').map(function(c) { return c + c; }).join('');
-                }
+            // Handle hex - CRITICAL: match 6-digit FIRST, then 3-digit
+            // Otherwise #0000ff matches as #000 (3 digits)
+            const hexMatch6 = colorStr.match(/#([0-9a-f]{6})(?:\s|;|$)/i);
+            if (hexMatch6) {
+                const hex = hexMatch6[1];
                 return {
-                    r: parseInt(hex.substr(0, 2), 16),
-                    g: parseInt(hex.substr(2, 2), 16),
-                    b: parseInt(hex.substr(4, 2), 16),
+                    r: parseInt(hex.substring(0, 2), 16),
+                    g: parseInt(hex.substring(2, 4), 16),
+                    b: parseInt(hex.substring(4, 6), 16),
+                    alpha: 1
+                };
+            }
+            
+            // Try 3-digit hex
+            const hexMatch3 = colorStr.match(/#([0-9a-f]{3})(?:\s|;|$)/i);
+            if (hexMatch3) {
+                const hex3 = hexMatch3[1];
+                const hex = hex3.split('').map(function(c) { return c + c; }).join('');
+                return {
+                    r: parseInt(hex.substring(0, 2), 16),
+                    g: parseInt(hex.substring(2, 4), 16),
+                    b: parseInt(hex.substring(4, 6), 16),
                     alpha: 1
                 };
             }
@@ -209,35 +370,62 @@
         
         /**
          * Extract color from inline style background (gradient, etc)
+         * This is the most reliable way to get colors from color blocks
          */
         function getColorFromInlineStyle(element) {
             const inlineStyle = element.getAttribute('style');
             if (!inlineStyle) return null;
             
+            // Look for background-color specifically first (most common case for color blocks)
+            // Match: "background-color: #0000ff" or "background-color:#0000ff" (with or without spaces)
+            const bgColorMatch = inlineStyle.match(/background-color\s*:\s*([^;]+)/i);
+            if (bgColorMatch) {
+                const colorStr = bgColorMatch[1].trim();
+                const rgb = parseColor(colorStr);
+                if (rgb && rgb.alpha > 0) {
+                    // Return RGB values directly - this is definitive
+                    return { r: rgb.r, g: rgb.g, b: rgb.b };
+                }
+            }
+            
             // Look for gradient colors in inline style
             // e.g., "background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"
             const gradientMatch = inlineStyle.match(/linear-gradient[^)]+\)/);
             if (gradientMatch) {
-                // Extract first color from gradient
-                const colorMatch = gradientMatch[0].match(/#([0-9a-f]{3}|[0-9a-f]{6})/i);
-                if (colorMatch) {
-                    let hex = colorMatch[1];
-                    if (hex.length === 3) {
-                        hex = hex.split('').map(function(c) { return c + c; }).join('');
-                    }
+                // Extract first color from gradient - check 6-digit FIRST
+                const colorMatch6 = gradientMatch[0].match(/#([0-9a-f]{6})(?:\s|%|,|\))/i);
+                if (colorMatch6) {
+                    const hex = colorMatch6[1];
                     return {
-                        r: parseInt(hex.substr(0, 2), 16),
-                        g: parseInt(hex.substr(2, 2), 16),
-                        b: parseInt(hex.substr(4, 2), 16)
+                        r: parseInt(hex.substring(0, 2), 16),
+                        g: parseInt(hex.substring(2, 4), 16),
+                        b: parseInt(hex.substring(4, 6), 16)
+                    };
+                }
+                // Try 3-digit
+                const colorMatch3 = gradientMatch[0].match(/#([0-9a-f]{3})(?:\s|%|,|\))/i);
+                if (colorMatch3) {
+                    const hex3 = colorMatch3[1];
+                    const hex = hex3.split('').map(function(c) { return c + c; }).join('');
+                    return {
+                        r: parseInt(hex.substring(0, 2), 16),
+                        g: parseInt(hex.substring(2, 4), 16),
+                        b: parseInt(hex.substring(4, 6), 16)
                     };
                 }
             }
             
-            // Look for solid background color
-            const bgColorMatch = inlineStyle.match(/background[^:]*:\s*([^;]+)/);
-            if (bgColorMatch) {
-                const rgb = parseColor(bgColorMatch[1].trim());
-                if (rgb) return { r: rgb.r, g: rgb.g, b: rgb.b };
+            // Look for solid background color (fallback - less specific)
+            const bgMatch = inlineStyle.match(/background\s*:\s*([^;]+)/i);
+            if (bgMatch) {
+                const colorStr = bgMatch[1].trim();
+                // Skip if it's a gradient (already handled above)
+                if (!colorStr.includes('gradient')) {
+                    const rgb = parseColor(colorStr);
+                    if (rgb && rgb.alpha > 0) {
+                        return { r: rgb.r, g: rgb.g, b: rgb.b };
+                    }
+                }
             }
             
             return null;
@@ -245,6 +433,7 @@
         
         /**
          * Get background color traversing up DOM tree
+         * Prioritizes inline styles which are most reliable for color blocks
          */
         function getBackgroundColor(element, depth = 0) {
             if (!element || depth > 15) {
@@ -278,29 +467,36 @@
                 return isDarkMode ? { r: 23, g: 23, b: 23 } : { r: 255, g: 255, b: 255 };
             }
             
-            // First check inline style (for gradients, etc)
+            // CRITICAL: Always check inline style first - this is most reliable for color blocks
+            // Inline styles like "background-color: #0000ff" are definitive
             const inlineColor = getColorFromInlineStyle(element);
             if (inlineColor) {
-                console.log('Chameleon navbar: Found inline color:', inlineColor, 'from element:', element.className || element.tagName);
                 return inlineColor;
             }
             
+            // Check computed style - but be careful, computed styles might be "rgb(0, 0, 255)" 
+            // which should parse correctly, but let's verify the format
             const style = window.getComputedStyle(element);
             const bgColor = style.backgroundColor;
             const rgb = parseColor(bgColor);
             
-            if (rgb && rgb.alpha > 0.05) {
-                if (rgb.alpha < 0.95 && element.parentElement) {
-                    const parentColor = getBackgroundColor(element.parentElement, depth + 1);
-                    return {
-                        r: Math.round(rgb.r * rgb.alpha + parentColor.r * (1 - rgb.alpha)),
-                        g: Math.round(rgb.g * rgb.alpha + parentColor.g * (1 - rgb.alpha)),
-                        b: Math.round(rgb.b * rgb.alpha + parentColor.b * (1 - rgb.alpha))
-                    };
-                }
+            // If we found a solid, opaque background color (not transparent), use it
+            // This handles cases where computed style returns "rgb(0, 0, 255)" for blue
+            if (rgb && rgb.alpha > 0.95) {
                 return { r: rgb.r, g: rgb.g, b: rgb.b };
             }
             
+            // If semi-transparent, blend with parent (but only if we have a valid color)
+            if (rgb && rgb.alpha > 0.05 && rgb.alpha < 0.95 && element.parentElement) {
+                const parentColor = getBackgroundColor(element.parentElement, depth + 1);
+                return {
+                    r: Math.round(rgb.r * rgb.alpha + parentColor.r * (1 - rgb.alpha)),
+                    g: Math.round(rgb.g * rgb.alpha + parentColor.g * (1 - rgb.alpha)),
+                    b: Math.round(rgb.b * rgb.alpha + parentColor.b * (1 - rgb.alpha))
+                };
+            }
+            
+            // If transparent or no color, check parent
             if (element.parentElement) {
                 return getBackgroundColor(element.parentElement, depth + 1);
             }
@@ -500,20 +696,38 @@
             samplePoints.forEach(function(point, i) {
                 const hitElement = document.elementFromPoint(point.x, point.y);
                 
-                if (!hitElement) return;
+                if (!hitElement) {
+                    if (window._chameleonDebugEnabled) {
+                        console.log('Chameleon navbar: sampleElementCorners - No element at point', i, point);
+                    }
+                    return;
+                }
+                
+                if (window._chameleonDebugEnabled) {
+                    console.log('Chameleon navbar: sampleElementCorners - Point', i, 'hit:', hitElement.tagName, hitElement.className || '(no class)', 'style:', hitElement.getAttribute('style'));
+                }
                 
                 // Skip navbar and its children (except the element we're sampling for)
                 if ((hitElement === navbar || navbar.contains(hitElement)) && 
                     hitElement !== element && !element.contains(hitElement)) {
+                    if (window._chameleonDebugEnabled) {
+                        console.log('Chameleon navbar: sampleElementCorners - Skipping navbar');
+                    }
                     return;
                 }
                 
                 // Skip body/html
                 if (hitElement === document.body || hitElement === document.documentElement) {
+                    if (window._chameleonDebugEnabled) {
+                        console.log('Chameleon navbar: sampleElementCorners - Skipping body/html');
+                    }
                     return;
                 }
                 
                 const bgColor = getBackgroundColor(hitElement);
+                if (window._chameleonDebugEnabled) {
+                    console.log('Chameleon navbar: sampleElementCorners - Got color:', bgColor, 'from element:', hitElement);
+                }
                 colors.push(bgColor);
             });
             
@@ -576,7 +790,103 @@
         }
         
         /**
-         * Sample color at a specific point - only samples background colors
+         * Sample pixel color directly from an img element at screen coordinates
+         * Uses Canvas API to read actual pixel data from the image
+         */
+        function samplePixelFromImage(img, screenX, screenY) {
+            if (!img || !img.complete || img.naturalWidth === 0 || img.naturalHeight === 0) {
+                return null;
+            }
+            
+            try {
+                // Get the image's bounding rect (where it's actually displayed)
+                const imgRect = img.getBoundingClientRect();
+                
+                // Calculate relative coordinates within the displayed image
+                const relativeX = screenX - imgRect.left;
+                const relativeY = screenY - imgRect.top;
+                
+                // Check if point is within displayed image bounds
+                if (relativeX < 0 || relativeY < 0 || relativeX >= imgRect.width || relativeY >= imgRect.height) {
+                    return null;
+                }
+                
+                // Create a canvas and draw the image
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                
+                // Draw the image to canvas - this might fail with CORS
+                ctx.drawImage(img, 0, 0);
+                
+                // Calculate pixel coordinates in the image's natural size
+                // Map from displayed size to natural size
+                const pixelX = Math.floor((relativeX / imgRect.width) * img.naturalWidth);
+                const pixelY = Math.floor((relativeY / imgRect.height) * img.naturalHeight);
+                
+                // Clamp to valid range
+                const clampedX = Math.max(0, Math.min(img.naturalWidth - 1, pixelX));
+                const clampedY = Math.max(0, Math.min(img.naturalHeight - 1, pixelY));
+                
+                // Sample the pixel - this will throw if canvas is tainted (CORS issue)
+                const imageData = ctx.getImageData(clampedX, clampedY, 1, 1);
+                const data = imageData.data;
+                
+                return {
+                    r: data[0],
+                    g: data[1],
+                    b: data[2],
+                    a: data[3] / 255
+                };
+            } catch (e) {
+                // CORS/tainted canvas error - cannot read pixels from this image
+                // This is the most common reason image sampling fails
+                // The image needs to be served with proper CORS headers or from same origin
+                console.warn('Chameleon navbar: Cannot sample image pixel (likely CORS):', e.message, img.src);
+                return null;
+            }
+        }
+        
+        /**
+         * Find all img elements that could contain the given point
+         * Returns array of {img, x, y} where x,y are clamped to image bounds
+         */
+        function findImageElementsAtPoint(screenX, screenY) {
+            const results = [];
+            
+            // Get all img elements on the page
+            const allImages = document.querySelectorAll('img');
+            
+            for (let i = 0; i < allImages.length; i++) {
+                const img = allImages[i];
+                
+                // Skip if not loaded
+                if (!img.complete || img.naturalWidth === 0) continue;
+                
+                // Skip if hidden
+                const style = window.getComputedStyle(img);
+                if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') continue;
+                
+                const rect = img.getBoundingClientRect();
+                
+                // Check if point is within image bounds (with small padding for edge cases)
+                if (screenX >= rect.left && screenX <= rect.right &&
+                    screenY >= rect.top && screenY <= rect.bottom) {
+                    // Clamp coordinates to image bounds
+                    const clampedX = Math.max(rect.left, Math.min(rect.right, screenX));
+                    const clampedY = Math.max(rect.top, Math.min(rect.bottom, screenY));
+                    results.push({ img: img, x: clampedX, y: clampedY });
+                }
+            }
+            
+            // Sort by z-index/depth (elements later in DOM are on top)
+            // We'll use the order in the array, but prioritize elements that are actually visible
+            return results;
+        }
+        
+        /**
+         * Sample color at a specific point - prioritizes image pixel sampling
          */
         function sampleColorAtPoint(x, y) {
             const scrollY = window.scrollY || window.pageYOffset;
@@ -597,33 +907,78 @@
             const originalPointerEvents = navbar.style.pointerEvents;
             navbar.style.pointerEvents = 'none';
             
-            const hitElement = document.elementFromPoint(x, y);
+            // Sample at multiple nearby points
+            const samplePoints = [
+                { x: x, y: y },
+                { x: x - 2, y: y },
+                { x: x + 2, y: y },
+                { x: x, y: y - 2 },
+                { x: x, y: y + 2 }
+            ];
+            
+            const colors = [];
+            
+            // FIRST: Try to sample from images at each point
+            for (let i = 0; i < samplePoints.length; i++) {
+                const point = samplePoints[i];
+                const imageResults = findImageElementsAtPoint(point.x, point.y);
+                
+                // Use the last image found (topmost in DOM, likely on top visually)
+                if (imageResults.length > 0) {
+                    const topImage = imageResults[imageResults.length - 1];
+                    const pixelColor = samplePixelFromImage(topImage.img, topImage.x, topImage.y);
+                    if (pixelColor && pixelColor.a > 0.1) {
+                        colors.push({ r: pixelColor.r, g: pixelColor.g, b: pixelColor.b });
+                        continue; // Found image color, skip CSS fallback for this point
+                    }
+                }
+                
+                // SECOND: Fall back to CSS background color sampling
+                const hitElement = document.elementFromPoint(point.x, point.y);
+                
+                if (!hitElement) continue;
+                
+                // Skip navbar and its children
+                if (hitElement === navbar || navbar.contains(hitElement)) continue;
+                
+                // Skip body/html
+                if (hitElement === document.body || hitElement === document.documentElement) continue;
+                
+                let current = hitElement;
+                
+                // Check current element and all parents up to body
+                while (current && current !== document.body && current !== document.documentElement) {
+                    // Check inline style first (most reliable)
+                    const inlineColor = getColorFromInlineStyle(current);
+                    if (inlineColor) {
+                        colors.push(inlineColor);
+                        break;
+                    }
+                    
+                    // Check computed style
+                    const style = window.getComputedStyle(current);
+                    const bgColor = style.backgroundColor;
+                    const rgb = parseColor(bgColor);
+                    if (rgb && rgb.alpha > 0.95) {
+                        colors.push({ r: rgb.r, g: rgb.g, b: rgb.b });
+                        break;
+                    }
+                    
+                    current = current.parentElement;
+                }
+            }
             
             // Restore pointer events
             navbar.style.pointerEvents = originalPointerEvents || '';
             
-            if (!hitElement) {
+            if (colors.length === 0) {
                 const isDarkMode = document.documentElement.classList.contains('dark') || 
                                    window.matchMedia('(prefers-color-scheme: dark)').matches;
                 return isDarkMode ? { r: 23, g: 23, b: 23 } : { r: 255, g: 255, b: 255 };
             }
             
-            // Skip navbar and its children
-            if (hitElement === navbar || navbar.contains(hitElement)) {
-                const isDarkMode = document.documentElement.classList.contains('dark') || 
-                                   window.matchMedia('(prefers-color-scheme: dark)').matches;
-                return isDarkMode ? { r: 23, g: 23, b: 23 } : { r: 255, g: 255, b: 255 };
-            }
-            
-            // Skip body/html
-            if (hitElement === document.body || hitElement === document.documentElement) {
-                const isDarkMode = document.documentElement.classList.contains('dark') || 
-                                   window.matchMedia('(prefers-color-scheme: dark)').matches;
-                return isDarkMode ? { r: 23, g: 23, b: 23 } : { r: 255, g: 255, b: 255 };
-            }
-            
-            // Only sample background color, ignore text
-            return getBackgroundColor(hitElement);
+            // Return the first color (they should be similar from nearby points)
+            return colors[0];
         }
         
         /**
